@@ -1,10 +1,14 @@
 const express = require('express');
 const morgan = require('morgan');
 const bodyParser = require('body-parser');
+const mongoose = require('mongoose');
 const app = express();
 
 const productRoutes = require('./api/routes/products')
 const orderRoutes = require('./api/routes/orders')
+
+mongoose.connect('mongodb://gagajanik:'+process.env.mongo_atlass_passwd+'@cluster0-shard-00-00-wcuj9.mongodb.net:27017,cluster0-shard-00-01-wcuj9.mongodb.net:27017,cluster0-shard-00-02-wcuj9.mongodb.net:27017/test?ssl=true&replicaSet=Cluster0-shard-0&authSource=admin&retryWrites=true',
+    { useNewUrlParser: true } );
 
 app.use(morgan('dev'));
 app.use(bodyParser.urlencoded({extended: false}));

@@ -32,11 +32,18 @@ router.post('/',(req, res, next) =>{
     });
     product.save().then(result => {
         console.log(result);
-    }).catch(err => {console.log(err)});
-    res.status(201).json({
-        message:'post done products',
-        createProduct: product
+        res.status(201).json({
+            message:'post done products',
+            createProduct: product
+        });
+    }).catch(err => {
+        console.log(err);
+        res.status(500).json({
+            error: err
+        });
+
     });
+
 });
 
 router.patch('/:productId',(req, res, next) =>{

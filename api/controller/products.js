@@ -16,6 +16,36 @@ exports.products_get = (req, res, next) =>{
         });
 }
 
+exports.products_get_all = (req, res, next) => {
+    Product.find()
+        .select('name price _id')
+        .exec()
+        .then(doc => {
+            console.log(doc);
+            const result = {
+                count: doc.length,
+                products: doc.map(doc => {
+                    return {
+                        name: doc.name,
+                        price: doc.price,
+                        id: doc._id,
+                        request: {
+                            type: 'GET',
+                            url: 'http://192.168.0.101:3000/products/'+ doc._id
+                        }
+                    }
+                })
+            }
+            if(doc) {
+                res.status(200).json(result);
+            }
+        })
+        .catch(err => {
+            console.log(err);
+            res.status(500).json({error:err});
+        });
+}
+
 exports.create_product = (req, res, next) =>{
     /*  const product = {
           name: req.body.name,
